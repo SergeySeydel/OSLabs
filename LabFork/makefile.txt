@@ -1,0 +1,11 @@
+all: forke
+
+forke:main.c
+	gcc $< -o $@
+
+clean: forke
+        rm $<
+
+gdb:main.c
+	gcc -g $< -o $@
+
