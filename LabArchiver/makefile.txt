@@ -1,0 +1,11 @@
+all: archiver
+
+forke:main.c
+	gcc $< -o $@
+
+clean: archiver
+        rm $<
+
+gdb:main.c
+	gcc -g $< -o $@
+
