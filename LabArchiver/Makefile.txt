@@ -1,6 +1,6 @@
 all: archiver
 
-forke:main.c
+archiver:main.c
 	gcc $< -o $@
 
 clean: archiver
