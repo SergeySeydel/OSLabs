@@ -3,6 +3,7 @@
 #include<sys/types.h>
 #include<sys/wait.h>
 #include<unistd.h>
+#include<signal.h>
 
 void doAtExit() {
   printf( "atexit handler called!\n" );
