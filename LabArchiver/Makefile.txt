@@ -1,11 +1,12 @@
 all: archiver
 
-archiver:main.c
-	gcc $< -o $@
+archiver: archiver.o
+	gcc -o archiver archiver.o 
 
-clean: archiver
-        rm $<
+archiver.o: archiver.c
+	gcc -c -W -Wall -O3 archiver.c
 
-gdb:main.c
-	gcc -g $< -o $@
+.PHONY: all clean
 
+clean:
+	rm -f *.o archiver
