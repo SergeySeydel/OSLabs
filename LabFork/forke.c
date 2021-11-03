@@ -5,17 +5,16 @@
 #include<unistd.h>
 #include<signal.h>
 
-void doAtExit() {
-  printf( "atexit handler called!\n" );
-}
-
 
 void print_PID_PPID() {
   pid_t pid = getpid();
   pid_t ppid = getppid();
   printf( "My PID=%d PPID=%d\n", pid, ppid );
 }
-
+void doAtExit() {
+  printf( "atexit handler called!\n" );
+  print_PID_PPID();
+}
 int main() {
 
 
