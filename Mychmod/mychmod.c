@@ -21,30 +21,30 @@ void usage() {
   printf( "     'r' for reading, 'w' for writing, 'x' for executing/searching \n" );
 }
 
-// Структура для передачи параметров командной строки
+
 typedef struct {
-  // Флаг помощи
+  
   int helpFlag;
-  // Флаги изменения прав для
-  // владельца
+  
+  
   int userFlag;
-  // группы
+  
   int groupFlag;
-  // остальных
+  
   int otherFlag;
-  // Флаг добавления (или снятия права)
+  
   int addingFlag;
-  // Право на чтение
+  
   int readFlag;
-  // на запись
+  
   int writeFlag;
-  // на исполнение/поиск
+  
   int executeFlag;
-  // Имя файла/директории
+  
   char * filename;
 } CommandLine;
 
-// Извлечение параметров из командной строки
+
 void parseCommandLine( int argc, char * argv[], CommandLine * cl ) {
   // Сброс всех флагов
   cl->filename = NULL;
@@ -61,7 +61,7 @@ void parseCommandLine( int argc, char * argv[], CommandLine * cl ) {
     cl->helpFlag = 1;
     return;
   }
-  // Если два параметра 
+  
   if ( argc == 3 ) {
     cl->filename = argv[ 2 ];
     char * argument = argv[ 1 ];
@@ -166,20 +166,20 @@ void printCommandLine( CommandLine * cl ) {
 }
 
 void changePermissions( CommandLine * cl ) {
-  // Буфер для получения данных о файле
+  
   struct stat statbuf;
-  // Получение данных
+  
   int result = lstat( cl->filename, & statbuf );
   if ( result != 0 ) {
     fprintf( stderr, "Filename '%s' caused an error: ", cl->filename );
     perror( NULL );
     exit( 1 );
   }
-  // Получение типа и прав доступа к файлу
+  
   mode_t mode = statbuf.st_mode;
-  // Выбрано добавление прав
+  
   if ( cl->addingFlag == 1 ) {
-    // Добавление прав пользователя
+    
     if ( cl->userFlag == 1 ) {
       if ( cl->readFlag == 1 )
 	mode |= S_IRUSR;
@@ -188,7 +188,7 @@ void changePermissions( CommandLine * cl ) {
       if ( cl->executeFlag == 1 )
 	mode |= S_IXUSR;
     }
-    // Добавление прав группы
+    
     if ( cl->groupFlag == 1 ) {
       if ( cl->readFlag == 1 )
 	mode |= S_IRGRP;
@@ -197,7 +197,7 @@ void changePermissions( CommandLine * cl ) {
       if ( cl->executeFlag == 1 )
 	mode |= S_IXGRP;
     }
-    // Добавление прав остальных
+    
     if ( cl->otherFlag == 1 ) {
       if ( cl->readFlag == 1 )
 	mode |= S_IROTH;
@@ -207,9 +207,9 @@ void changePermissions( CommandLine * cl ) {
 	mode |= S_IXOTH;
     }
 
-  // Выбрано удаление прав
+  
   } else {
-    // Удаление прав пользователя
+    
     if ( cl->userFlag == 1 ) {
       if ( ( cl->readFlag == 1 ) && ( mode & S_IRUSR ) )
 	mode ^= S_IRUSR;
@@ -218,7 +218,7 @@ void changePermissions( CommandLine * cl ) {
       if ( ( cl->executeFlag == 1 ) && ( mode & S_IXUSR ) )
 	mode ^= S_IXUSR;
     }
-    // Удаление прав группы
+    
     if ( cl->groupFlag == 1 ) {
       if ( ( cl->readFlag == 1 ) && ( mode & S_IRGRP ) )
 	mode ^= S_IRGRP;
@@ -227,7 +227,7 @@ void changePermissions( CommandLine * cl ) {
       if ( ( cl->executeFlag == 1 ) && ( mode & S_IXGRP ) )
 	mode ^= S_IXGRP;
     }
-    // Удаление прав остальных
+    
     if ( cl->otherFlag == 1 ) {
       if ( ( cl->readFlag == 1 ) && ( mode & S_IROTH ) )
 	mode ^= S_IROTH;
@@ -238,7 +238,7 @@ void changePermissions( CommandLine * cl ) {
     }
   }
 
-  // Попытка установки новых прав
+  
   result = chmod( cl->filename, mode );
   if ( result == -1 ) {
     fprintf( stderr, "Changing permissions caused an error: " );
